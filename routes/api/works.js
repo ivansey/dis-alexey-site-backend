@@ -44,7 +44,8 @@ router.post("/add", async (req, res) => {
         }).status(403);
     };
 
-    const data = await works.add(req.body.name, req.body.desc, req.body.typeWork, req.body.typeContent, req.body.files);
+    console.log(req.body)
+    const data = await works.add(req.body.name, req.body.desc, req.body.typeWork, req.body.typeContent, req.body.files, req.body.urlYouTubeVideo);
     return res.send({
         data: data,
         response: "ok",

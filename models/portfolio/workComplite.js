@@ -8,9 +8,10 @@ const schema = new Schema({
     typeContent: String,
     urlContent: Array,
     view: Boolean,
+    urlYouTubeVideo: String,
 });
 
-schema.statics.add = async function (name, desc, typeWork, typeContent, urlContent) {
+schema.statics.add = async function (name, desc, typeWork, typeContent, urlContent, urlYouTubeVideo) {
     const data = new this ({
         name: name,
         desc: desc,
@@ -18,9 +19,10 @@ schema.statics.add = async function (name, desc, typeWork, typeContent, urlConte
         typeContent: typeContent,
         urlContent: urlContent,
         view: true,
+        urlYouTubeVideo: urlYouTubeVideo,
     });
     await data.save();
-    return await data;
+    return data;
 }
 
 schema.statics.update = async function (_id, name, desc, typeWork, typeContent, urlContent, view) {
@@ -53,7 +55,7 @@ schema.statics.getAllView = async function () {
 }
 
 schema.statics.getById = async function (_id) {
-    return await this.findById(_id);
+    return this.findById(_id);
 }
 
 module.exports = model("workComplite", schema);
