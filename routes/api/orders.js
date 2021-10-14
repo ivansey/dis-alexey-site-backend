@@ -5,6 +5,8 @@ const orders = models.orders.orderModel;
 const users = models.users.userModel;
 const sessions = models.users.sessionModel;
 
+const bot = require("../../modules/telegramBot");
+
 router.post("/get", async (req, res) => {
     const session = await sessions.checkToken(req.body.token);
     
@@ -75,6 +77,10 @@ router.post("/get/id", async (req, res) => {
 
 router.post("/add", async (req, res) => {
     const data = await orders.add(req.body.form);
+    bot.send(`Новый заказ: \n 
+        ${req.body.form.city} ${req.body.form.name} \n 
+        ${req.body.form.typeObject} ${req.body.form.typeObject === "home" ? req.body.form.typeTreatment : null} ${req.body.form.typeObject === "homestead" ? req.body.form.typeTreatmentHomestead : null} \n
+        [${req.body.form.phone}](tel:${req.body.form.phone}) ${req.body.form.isWhatsApp ? "Есть в вацапе" : null} ${req.body.form.email}`)
     return res.send({
         data: data,
         response: "ok",
