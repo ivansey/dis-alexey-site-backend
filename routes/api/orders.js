@@ -9,14 +9,15 @@ const bot = require("../../modules/telegramBot");
 
 router.post("/get", async (req, res) => {
     const session = await sessions.checkToken(req.body.token);
-    
+
     if (session === null) {
         return res.send({
             data: {},
             response: "err",
             error: "invalidToken",
         }).status(403);
-    };
+    }
+    ;
 
     return res.send({
         data: await orders.getAll(),
@@ -26,14 +27,15 @@ router.post("/get", async (req, res) => {
 
 router.post("/get/new", async (req, res) => {
     const session = await sessions.checkToken(req.body.token);
-    
+
     if (session === null) {
         return res.send({
             data: {},
             response: "err",
             error: "invalidToken",
         }).status(403);
-    };
+    }
+    ;
 
     return res.send({
         data: await orders.getByType("new"),
@@ -43,14 +45,15 @@ router.post("/get/new", async (req, res) => {
 
 router.post("/get/type", async (req, res) => {
     const session = await sessions.checkToken(req.body.token);
-    
+
     if (session === null) {
         return res.send({
             data: {},
             response: "err",
             error: "invalidToken",
         }).status(403);
-    };
+    }
+    ;
 
     return res.send({
         data: await orders.getByType(req.body.type),
@@ -60,14 +63,15 @@ router.post("/get/type", async (req, res) => {
 
 router.post("/get/id", async (req, res) => {
     const session = await sessions.checkToken(req.body.token);
-    
+
     if (session === null) {
         return res.send({
             data: {},
             response: "err",
             error: "invalidToken",
         }).status(403);
-    };
+    }
+    ;
 
     return res.send({
         data: await orders.getById(req.body._id),
@@ -77,10 +81,45 @@ router.post("/get/id", async (req, res) => {
 
 router.post("/add", async (req, res) => {
     const data = await orders.add(req.body.form);
+
+    function getTitleTypeObject(type) {
+        switch(type) {
+            case "apartment":
+                return "Квартира ";
+            case "homestead":
+                return "Участок ";
+            case "corp":
+                return "Корпоративный клиент ";
+        }
+    }
+
+    function getTitleTypeTreatment(typeObject, typeTreatment, typeTreatmentHomestead) {
+        switch(typeObject) {
+            case "apartment":
+                switch(typeTreatment) {
+                    case "coldFog":
+                        return "Холодный туман ";
+                    case "hotFog":
+                        return "Горячий туман ";
+                    case "duoFog":
+                        return "Комплексная обработка ";
+                }
+            case "homestead":
+                switch(typeTreatmentHomestead) {
+                    case "benz":
+                        return "Бензиновый ";
+                    case "electro":
+                        return "Электрический ";
+                }
+            case "corp":
+                return "";
+        }
+    }
+
     bot.send(`Новый заказ: \n 
-        ${req.body.form.city} ${req.body.form.name} \n 
-        ${req.body.form.typeObject} ${req.body.form.typeObject === "home" ? req.body.form.typeTreatment : null} ${req.body.form.typeObject === "homestead" ? req.body.form.typeTreatmentHomestead : null} \n
-        [${req.body.form.phone}](tel:${req.body.form.phone}) ${req.body.form.isWhatsApp ? "Есть в вацапе" : null} ${req.body.form.email}`)
+${req.body.form.city} ${req.body.form.name} \n 
+${getTitleTypeObject(req.body.form.typeObject)} ${getTitleTypeTreatment(req.body.form.typeObject, req.body.form.typeTreatment, req.body.form.typeTreatmentHomestead)} \n
+${req.body.form.phone} ${req.body.form.isWhatsApp ? "Есть в вацапе" : ""} ${req.body.form.email}`)
     return res.send({
         data: data,
         response: "ok",
@@ -89,14 +128,15 @@ router.post("/add", async (req, res) => {
 
 router.post("/editType", async (req, res) => {
     const session = await sessions.checkToken(req.body.token);
-    
+
     if (session === null) {
         return res.send({
             data: {},
             response: "err",
             error: "invalidToken",
         }).status(403);
-    };
+    }
+    ;
 
     await orders.updateType(req.body._id, req.body.type);
     return res.send({
@@ -106,14 +146,15 @@ router.post("/editType", async (req, res) => {
 
 router.post("/delete", async (req, res) => {
     const session = await sessions.checkToken(req.body.token);
-    
+
     if (session === null) {
         return res.send({
             data: {},
             response: "err",
             error: "invalidToken",
         }).status(403);
-    };
+    }
+    ;
 
     await orders.delete(req.body._id);
     return res.send({

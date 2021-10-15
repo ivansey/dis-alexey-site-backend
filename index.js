@@ -9,6 +9,9 @@ const path = require("path");
 
 const models = require("./models");
 
+const {bot} = require("./modules/telegramBot");
+const adminsTG = require("./models/orders/adminsTG");
+
 const PORT = process.env.PORT;
 
 // mongoose.set("useFindAndModify", false);
