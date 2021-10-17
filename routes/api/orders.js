@@ -122,7 +122,8 @@ router.post("/add", async (req, res) => {
 ${req.body.form.city} ${req.body.form.name} \n 
 ${req.body.form.adress}
 ${getTitleTypeObject(req.body.form.typeObject)} ${getTitleTypeTreatment(req.body.form.typeObject, req.body.form.typeTreatment, req.body.form.typeTreatmentHomestead)} \n
-${req.body.form.phone} ${req.body.form.isWhatsApp ? "Есть в вацапе" : ""}`)
+${req.body.form.phone} ${req.body.form.isWhatsApp ? "Есть в вацапе" : "" }
+Время: ${moment(timeOrder, "x").format("DD/MM HH:mm")}`)
     return res.send({
         data: data,
         response: "ok",
