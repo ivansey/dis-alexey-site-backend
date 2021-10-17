@@ -1,5 +1,6 @@
 const telegramBot = require("node-telegram-bot-api");
-const adminsTG = require("../models/orders/adminsTG");
+const {adminsTG, times} = require("../models/orders");
+const moment = require("moment");
 
 const token = process.env.TELEGRAM_BOT_API_KEY;
 
@@ -21,6 +22,18 @@ bot.onText(/\/reg (.+)/, (msg, match) => {
     } else {
         bot.sendMessage(msg.chat.id, "Введён не правильный код");
     }
+})
+
+bot.onText(/\/занято (.+)/, (msg, match) => {
+    const [text, date] = match;
+
+    console.log("yes");
+
+    for (let i = 2; i < 6; i++) {
+        times.add(moment(`${date} ${match[i]}`, "DD/MM HH:mm").format("x"))
+    }
+
+    bot.sendMessage(msg.chat.id, "Время занято");
 })
 
 const send = async (msg) => {
