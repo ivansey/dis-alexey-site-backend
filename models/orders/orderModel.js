@@ -21,6 +21,9 @@ const schema = new Schema({
     adress: String,
     isWhatsApp: Boolean,
 
+    timeOrder: String,
+    dateOrder: String,
+
     type: String,
 
     time: {
@@ -44,6 +47,9 @@ schema.statics.add = async function (body) {
         pests: body.pests,
 
         cost: body.cost,
+
+        timeOrder: body.timeOrder,
+        dateOrder: body.dateOrder,
 
         name: body.name,
         phone: body.phone,
