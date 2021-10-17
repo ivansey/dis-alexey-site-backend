@@ -118,8 +118,9 @@ router.post("/add", async (req, res) => {
 
     bot.send(`Новый заказ: \n 
 ${req.body.form.city} ${req.body.form.name} \n 
+${req.body.form.adress}
 ${getTitleTypeObject(req.body.form.typeObject)} ${getTitleTypeTreatment(req.body.form.typeObject, req.body.form.typeTreatment, req.body.form.typeTreatmentHomestead)} \n
-${req.body.form.phone} ${req.body.form.isWhatsApp ? "Есть в вацапе" : ""} ${req.body.form.email}`)
+${req.body.form.phone} ${req.body.form.isWhatsApp ? "Есть в вацапе" : ""}`)
     return res.send({
         data: data,
         response: "ok",

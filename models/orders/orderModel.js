@@ -18,7 +18,7 @@ const schema = new Schema({
 
     name: String,
     phone: String,
-    email: String,
+    adress: String,
     isWhatsApp: Boolean,
 
     type: String,
@@ -47,7 +47,7 @@ schema.statics.add = async function (body) {
 
         name: body.name,
         phone: body.phone,
-        email: body.email,
+        adress: body.adress,
         isWhatsApp: body.isWhatsApp,
 
         type: "new",
