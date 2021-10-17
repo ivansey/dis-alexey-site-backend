@@ -11,4 +11,9 @@ schema.statics.add = function (time) {
     return true;
 }
 
+schema.statics.checkOne = async function (time) {
+    const times = await this.findOne({time: time});
+    return times !== null;
+}
+
 module.exports = model("times", schema);

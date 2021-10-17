@@ -2,6 +2,7 @@ const router = require("express").Router();
 
 const models = require("../../models");
 const orders = models.orders.orderModel;
+const times = models.orders.times;
 const users = models.users.userModel;
 const sessions = models.users.sessionModel;
 
@@ -162,5 +163,11 @@ router.post("/delete", async (req, res) => {
         response: "ok",
     });
 });
+
+router.post("/times/checkOne", async (req, res) => {
+    return res.send({
+        find: await times.checkOne(req.body.time),
+    });
+})
 
 module.exports = router;

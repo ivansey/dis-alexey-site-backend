@@ -27,10 +27,10 @@ bot.onText(/\/reg (.+)/, (msg, match) => {
 bot.onText(/\/занято (.+)/, (msg, match) => {
     const [text, date] = match;
 
-    console.log("yes");
+    const time = date.split(" ");
 
-    for (let i = 2; i < 6; i++) {
-        times.add(moment(`${date} ${match[i]}`, "DD/MM HH:mm").format("x"))
+    for (let i = 1; i < time.length; i++) {
+        times.add(moment(`${time[0]} ${time[i]}`, "DD/MM HH:mm").format("x"))
     }
 
     bot.sendMessage(msg.chat.id, "Время занято");
