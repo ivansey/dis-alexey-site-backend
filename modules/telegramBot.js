@@ -24,7 +24,7 @@ bot.onText(/\/reg (.+)/, (msg, match) => {
     }
 })
 
-bot.onText(/\/занято (.+)/, (msg, match) => {
+bot.onText(/занято (.+)/, (msg, match) => {
     const [text, date] = match;
 
     const time = date.split(" ");

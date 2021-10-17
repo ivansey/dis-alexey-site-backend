@@ -1,8 +1,9 @@
 const router = require("express").Router();
+const moment = require("moment");
 
 const models = require("../../models");
 const orders = models.orders.orderModel;
-const times = models.orders.times;
+const timesModel = models.orders.times;
 const users = models.users.userModel;
 const sessions = models.users.sessionModel;
 
@@ -164,9 +165,28 @@ router.post("/delete", async (req, res) => {
     });
 });
 
-router.post("/times/checkOne", async (req, res) => {
+router.post("/times/get", async (req, res) => {
+    const {dateOrder} = req.body;
+
+    console.log(dateOrder);
+
+    let times = [];
+    let timestamp, time, nightTime;
+
+    for (let i = 0; i < 15; i++) {
+        timestamp = moment(`${dateOrder} 10:00:00`, "DD/MM HH:mm:ss").add(i, "h").format("x");
+        time = moment(`${dateOrder} 10:00:00`, "DD/MM HH:mm:ss").add(i, "h").format("HH:mm");
+        nightTime = moment(`${dateOrder} 10:00:00`, "DD/MM HH:mm:ss").add(i, "h") >= moment(`${dateOrder} 17:00:00`, "DD/MM HH:mm:ss");
+        times.push({
+            timestamp: timestamp,
+            time: time,
+            nightTime: nightTime,
+            disabled: await timesModel.checkOne(timestamp),
+        })
+    }
+    
     return res.send({
-        find: await times.checkOne(req.body.time),
+        times: times,
     });
 })
 
