@@ -9,9 +9,11 @@ const schema = new Schema({
     urlContent: Array,
     view: Boolean,
     urlYouTubeVideo: String,
+
+    isClientContent: Boolean,
 });
 
-schema.statics.add = async function (name, desc, typeWork, typeContent, urlContent, urlYouTubeVideo) {
+schema.statics.add = async function (name, desc, typeWork, typeContent, urlContent, urlYouTubeVideo, isClientContent) {
     const data = new this ({
         name: name,
         desc: desc,
@@ -20,6 +22,7 @@ schema.statics.add = async function (name, desc, typeWork, typeContent, urlConte
         urlContent: urlContent,
         view: true,
         urlYouTubeVideo: urlYouTubeVideo,
+        isClientContent: Boolean(isClientContent),
     });
     await data.save();
     return data;
